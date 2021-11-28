@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home | Wingardium Leviosa</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="shortcut icon" href="Imagens/favicon.ico" type="image/x-icon">
+    <script src="assets/js/funcoes.js"></script>
+</head>
+
+<body onload="validarSessao(), atualizarFeed()">
+
+    <div class="head">
+        <div class="conteiner">
+            <a href="index.html"><img id="logoInicial" src="Imagens/Logo-Wingardium-Leviosa .png"></a>
+            <div id="div_usuario" style="display: none;" class="usuario">
+                <h5 id="b_usuario"></h5>
+            </div>
+            <ul class="navbar">
+                <li><a class="active" href="">Home</a></li>
+                <li><a href="livros.html">Livros</a></li>
+                <li><a href="filmes.html">Filmes</a></li>
+                <li>|</li>
+                <li><a href="cadastro.html">Cadastre-se</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+
+        </div>
+    </div>
+
+    <div class="dash-right">
+
+        <div class="avisos">
+            <div class="container">
+                <h1>Faça uma publicação</h1>
+                <div class="div-form">
+                    <form id="form_postagem" method="post" onsubmit="return publicar()">
+                        <br>
+                        <input name="titulo" id="titulo" maxlength="100" type="text" placeholder="Nomeie a publicação">
+                        <br>
+                        <textarea name="descricao" id="textarea_descricao" maxlength="250" rows="5"
+                            placeholder="No que você está pensando? levite em seus pensamentos... "></textarea>
+                        <br>
+                        <button>Enviar</button>
+                    </form>
+                </div>
+                <h1>Publicações Recentes</h1>
+                <div class="div-results">
+                    <div id="feed_container" class="feed-container">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="div_aguardar" class="div-aguardar">
+            <!-- <img src="../assets/circle-loading.gif" id="img_aguarde"> -->
+        </div>
+
+        <div class="acessorapido">
+            <h3>Páginas Recomendadas:</h3>
+
+            <li>
+                <a href="livros.html">Livros</a>
+            </li>
+            <li>
+                <a href="filmes.html">Filmes</a>
+            </li>
+            <li>
+                <a href="https://www.wizardingworld.com/">Qual sua Casa?</a>
+            </li>
+        </div>
+
+    </div>
+    
+
+    <div class="footer">
+        <img id="logo" src="Imagens/Logo.png">
+        <p>Todos os direitos reservados © Wingardium Leviosa 2021</p>
+    </div>
+</body>
+
+</html>
+<script>
+
+    function limparFormulario() {
+        document.getElementById("form_postagem").reset();
+    }
+
+    function publicar() {
+        var idUsuario = sessionStorage.ID_USUARIO;
+
+        var corpo = {
+            titulo: form_postagem.titulo.value,
+            descricao: form_postagem.descricao.value
+        }
+
+        fetch(`/avisos/publicar/${idUsuario}`, {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(corpo)
+        }).then(function (resposta) {
+
+            console.log("resposta: ", resposta);
+
+            if (resposta.ok) {
+                window.alert("Post realizado com sucesso pelo usuario de ID: " + idUsuario + "!");
+                window.location = "/index.html";
+                limparFormulario();
+                finalizarAguardar();
+            } else {
+                window.alert('Somente colaboradores podem postar! Realize seu cadastro')
+                throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
+            }
+        }).catch(function (erro) {
+            console.log(`#ERRO: ${erro}`);
+            finalizarAguardar();
+        });
+
+        return false;
+
+    }
+
+    function atualizarFeed() {
+        aguardar();
+        fetch("/avisos/listar").then(function (resposta) {
+            if (resposta.ok) {
+                if (resposta.status == 204) {
+                    var feed = document.getElementById("feed_container");
+                    var mensagem = document.createElement("span");
+                    mensagem.innerHTML = "Nenhum resultado encontrado."
+                    feed.appendChild(mensagem);
+                    throw "Nenhum resultado encontrado!!";
+                }
+
+                resposta.json().then(function (resposta) {
+                    console.log("Dados recebidos: ", JSON.stringify(resposta));
+
+                    var feed = document.getElementById("feed_container");
+                    feed.innerHTML = "";
+                    for (var i = resposta.length-1; i > 0; i--) {
+                        var publicacao = resposta[i];
+
+                        // criando e manipulando elementos do HTML via JavaScript
+                        var divPublicacao = document.createElement("div");
+                        var spanID = document.createElement("span");
+                        var spanTitulo = document.createElement("h3");
+                        var spanNome = document.createElement("h6");
+                        var divDescricao = document.createElement("div");
+                        var divButtons = document.createElement("div");
+
+                        // spanID.innerHTML = "ID: <b>" + publicacao.idAviso + "</b>";
+                        spanTitulo.innerHTML = `<h3 style="text-align: center;"><u>` + publicacao.titulo + "</h3></u>";
+                        spanNome.innerHTML = "Bruxo: <b>" + publicacao.nome + "</b>";
+                        divDescricao.innerHTML = "<i>" + publicacao.descricao + "</i>";
+
+                        divPublicacao.className = "publicacao";
+                        spanTitulo.id = "inputNumero" + publicacao.idAviso;
+                        spanNome.className = "publicacao-nome";
+                        spanTitulo.className = "publicacao-titulo";
+                        divDescricao.className = "publicacao-descricao";
+
+                        divButtons.className = "div-buttons"
+
+                        divPublicacao.appendChild(spanID);
+                        divPublicacao.appendChild(spanTitulo);
+                        divPublicacao.appendChild(divDescricao);
+                        divPublicacao.appendChild(spanNome);
+                        divPublicacao.appendChild(divButtons);
+                        feed.appendChild(divPublicacao);
+                    }
+
+                    finalizarAguardar();
+                });
+            } else {
+                throw ('Houve um erro na API!');
+            }
+        }).catch(function (resposta) {
+            console.error(resposta);
+            finalizarAguardar();
+        });
+    }
+
+    function testar() {
+        aguardar();
+
+        var formulario = new URLSearchParams(new FormData(document.getElementById("form_postagem")));
+
+        var divResultado = document.getElementById("div_feed");
+
+        divResultado.appendChild(document.createTextNode(formulario.get("descricao")));
+        divResultado.innerHTML = formulario.get("descricao");
+
+        finalizarAguardar();
+
+        return false;
+    }
+
+</script>

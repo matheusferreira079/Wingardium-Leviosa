@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cadastro | Wingardium Leviosa</title>
+
+    <script src="./assets/js/funcoes.js"></script>
+
+
+    <link rel="shortcut icon" href="Imagens/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="./css/cadastro.css">
+
+</head>
+
+<body>
+
+    <!--header inicio-->
+    <div class="head">
+        <div class="conteiner">
+            <a href="index.html"><img id="logoInicial" src="Imagens/Logo-Wingardium-Leviosa .png"></a>
+
+            <ul class="navbar">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="livros.html">Livros</a></li>
+                <li><a href="filmes.html">Filmes</a></li>
+                <li>|</li>
+                <li><a class="active" href="">Cadastre-se</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+
+        </div>
+    </div>
+    <!--header fim-->
+
+    <div class="banner ">
+        <form id="form_cadastro">
+            <img src="Imagens/cadastre-se.png" alt="">
+            <div class="OneInput">
+                <input type="text" name="nome" placeholder="Digite seu nome...">
+            </div>
+            <div class="OneInput">
+                <input type="email" name="email" placeholder="Digite seu e-mail...">
+            </div>
+            <div class="OneInput">
+                <select name="casa">
+                    <option value="">Selecione a Casa</option>
+                    <option value="1">Grifinória</option>
+                    <option value="2">Sonserina</option>
+                    <option value="3">Corvinal</option>
+                    <option value="4">Lufa-lufa</option>
+                </select>
+            </div>
+            <div class="OneInput">
+                <input type="text" name="feitico" placeholder="Digite seu feitiço favorito...">
+            </div>
+            <div class="OneInput">
+                <input type="password" name="senha" placeholder="Crie uma senha...">
+            </div>
+            <div class="OneInput">
+                <input type="password" name="confirmacao-senha" placeholder="Confirme a senha...">
+            </div>
+            
+        </form>
+        <button class="btn" onclick="cadastrar()">Cadastrar</button>
+        <div id="div_aguardar" class="loading-div">
+            <img src="./assets/circle-loading.gif" id="loading-gif">
+        </div>
+
+        <div id="div_erros_login">
+
+        </div>
+
+
+    </div>
+
+    <!--footer inicio-->
+    <div class="footer">
+        <img id="logo" src="Imagens/Logo.png">
+        <p>Todos os direitos reservados © Wingardium Leviosa 2021</p>
+    </div>
+    <!--footer fim-->
+
+
+</body>
+
+</html>
+
+<script>
+
+    function limparFormulario() {
+        document.getElementById("form_cadastro").reset();
+    }
+
+    function cadastrar() {
+        aguardar();
+        var formulario = new URLSearchParams(new FormData(document.getElementById("form_cadastro")));
+
+        var nome = formulario.get("nome");
+        var email = formulario.get("email");
+        var casa = formulario.get("casa");
+        var feitiço = formulario.get("feitico");
+        var senha = formulario.get("senha");
+        var confirmacaoSenha = formulario.get("confirmacao-senha");
+        
+        // TODO: VERIFICAR AS VALIDAÇÕES QUE ELES ESTÃO APRENDENDO EM ALGORITMOS 
+        if (nome == "" || email == "" || casa == "" || feitiço == "" || senha == "" || confirmacaoSenha == "") {
+
+            window.alert("Preencha todos os campos para prosseguir!");
+            if (nome == "") {
+                console.log('nome está em branco')
+            }
+            if (email == "") {
+                console.log('email está em branco')
+            }
+            if (casa == "") {
+                console.log('casa está em branco')
+            }
+            if (feitiço == "") {
+                console.log('feitiço está em branco')
+            }
+            if (senha == "") {
+                console.log('senha está em branco')
+            }
+            if (confirmacaoSenha == "") {
+                console.log('confirmacaoSenha está em branco')
+            }
+            finalizarAguardar();
+            return false;
+        }
+
+        if (email.indexOf("@") == -1 || email.indexOf(".com") == -1) {
+            window.alert("Ops, e-mail inválido! Verifique e tente novamente.");
+            finalizarAguardar();
+            return false;
+        }
+
+        if (senha != confirmacaoSenha) {
+            window.alert("As senhas inseridas devem ser iguais para prosseguir!");
+            finalizarAguardar();
+            return false;
+        }
+
+        fetch("/usuarios/cadastrar", {
+            method: "POST",
+            body: formulario
+        }).then(function (resposta) {
+
+            console.log("resposta: ", resposta);
+
+            if (resposta.ok) {
+                window.alert("Cadastro realizado com sucesso!");
+                window.location = "login.html";
+                limparFormulario();
+                finalizarAguardar();
+            } else {
+                throw ("Houve um erro ao tentar realizar o cadastro!");
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+            finalizarAguardar();
+        });
+
+        return false;
+    }
+
+</script>
