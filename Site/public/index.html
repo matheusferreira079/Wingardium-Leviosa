@@ -35,7 +35,7 @@
 
         <div class="avisos">
             <div class="container">
-                <h1>Faça uma publicação</h1>
+                <h1>Compartilhe suas histórias</h1>
                 <div class="div-form">
                     <form id="form_postagem" method="post" onsubmit="return publicar()">
                         <br>
@@ -71,6 +71,29 @@
             <li>
                 <a href="https://www.wizardingworld.com/">Qual sua Casa?</a>
             </li>
+
+            <h4>Placar das Casas</h4>
+
+            <div class="placar">
+                <div class="casa">
+                    <h5>Grifinória</h5>
+                    <h5 id="casaG">0</h5>
+                </div>
+                <div class="casa borda">
+                    <h5>Sonserina</h5>
+                    <h5>0</h5>
+                </div>
+            </div>
+            <div class="placar">
+                <div class="casa">
+                    <h5>Corvinal</h5>
+                    <h5>0</h5>
+                </div>
+                <div class="casa borda">
+                    <h5>Lufa-lufa</h5>
+                    <h5>0</h5>
+                </div>
+            </div>
         </div>
 
     </div>
@@ -142,7 +165,7 @@
 
                     var feed = document.getElementById("feed_container");
                     feed.innerHTML = "";
-                    for (var i = resposta.length-1; i > 0; i--) {
+                    for (var i = resposta.length-1; i > 1; i--) {
                         var publicacao = resposta[i];
 
                         // criando e manipulando elementos do HTML via JavaScript

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo | Wingardium Leviosa</title>
+    <link rel="stylesheet" href="./css/jogo.css">
+    <link rel="shortcut icon" href="Imagens/favicon.ico" type="image/x-icon">
+
+    <script src="assets/js/funcoes.js"></script>
+</head>
+
+<body onload="validarSessao()">
+
+    <div class="head">
+        <div class="conteiner">
+            <a href="index.html"><img id="logoInicial" src="Imagens/Logo-Wingardium-Leviosa .png"></a>
+            <div id="div_usuario" style="display: none;" class="usuario">
+                <h5 id="b_usuario"></h5>
+            </div>
+
+            <ul class="navbar">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="" class="active">Livros</a></li>
+                <li><a href="filmes.html">Filmes</a></li>
+                <li>|</li>
+                <li><a href="cadastro.html">Cadastre-se</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+
+        </div>
+    </div>
+
+    <div id="parteOne" style="display: block;" class="conteinerJogo">
+        <h1>Quadribol</h1>
+        <div id="instrucao">
+            <p>
+                Lorem ipsum dolor sit amet consectetur,
+                adipisicing elit. Dolores repudiandae dolorem ratione,
+                deleniti iure voluptatibus? Sed, omnis nam consectetur magni commodi
+                quibusdam dolorem explicabo, neque eos in maxime incidunt fuga.
+                Lorem ipsum dolor sit amet consectetur,
+                adipisicing elit. Dolores repudiandae dolorem ratione,
+                deleniti iure voluptatibus? Sed, omnis nam consectetur magni commodi
+                quibusdam dolorem explicabo, neque eos in maxime incidunt fuga.
+            </p>
+            <button onclick="começar()" class="btn">Começar</button>
+        </div>
+    </div>
+
+    <div id="parteTwo" style="display: none;" class="conteinerJogo">
+        <h1>Quadribol</h1>
+        <div id="instrucao">
+            <div class="imagem">
+                <img id="img" src="assets/quadribol/Iniciar.gif" alt="">
+                <div class="quant">Quantidade de tentativas: <span id="tentativas"></span></div>
+            </div>
+            <button onclick="bater()" class="btn">Bater</button>
+        </div>
+    </div>
+
+
+    <div id="parteTree" style="display: none;" class="conteinerJogo">
+        <h1>Quadribol</h1>
+        <div id="instrucao">
+
+            <h3>Placar Final</h3>
+
+            <div class="placar">
+                <div class="divresult one">
+                    <h4>Acertos</h4>
+                    <h5 id="acertos">0</h5>
+                </div>
+                <div class="divresult two">
+                    <h4>Acertos</h4>
+                    <h5 id="acertos">0</h5>
+                </div>
+                <div class="divresult tree">
+                    <h4>Acertos</h4>
+                    <h5 id="acertos">0</h5>
+                </div>
+            </div>
+
+        </div>
+        <button onclick="voltar()" class="btn">Jogar Novamente</button>
+    </div>
+    </div>
+    <div class="footer">
+        <img id="logo" src="Imagens/Logo.png">
+        <p>Todos os direitos reservados © Wingardium Leviosa 2021</p>
+    </div>
+</body>
+
+</html>
+<script>
+    function começar() {
+        parteOne.style.display = 'none';
+        parteTwo.style.display = 'block';
+    }
+    var ax_cliques = 0;
+    var vt_errou = [];
+    var vt_acertou = [];
+    function bater() {
+        ax_cliques++;
+        for (let i = 0; i < 1; i++) {
+
+            var ax_sorte = (Math.random() * 100).toFixed();
+            console.log(ax_sorte);
+            var ax_pombo = 100;
+            var ax_ganhou = (ax_sorte % 2 == 0) % 11 == 0;
+
+            if (ax_pombo == ax_sorte) {
+                window.alert('Parabéns!!! Você pegou o pombo de ouro')
+                parteTwo.innerHTML = '<img width="90%" style="margin-left: 5%; margin-top: 2%; border-radius: 10px;" id="img" src="assets/quadribol/pombo.gif">'
+                parteTree.style.display = 'block'
+            }
+
+            else if (ax_ganhou == ax_sorte) {
+                img.src = "assets/quadribol/Acertou.gif"
+            }
+            else {
+                img.src = "assets/quadribol/Errou.gif"
+            }
+
+            tentativas.innerHTML = `${ax_cliques}`
+
+            if (ax_sorte == ax_ganhou) {
+                vt_acertou.push(i);
+            }
+            else {
+                vt_errou.push(i);
+            }
+        }
+
+        if (ax_cliques == 20) {
+            parteTwo.style.display = 'none';
+            parteTree.style.display = 'block';
+        }
+
+        console.log(vt_acertou);
+        console.log(vt_errou);
+    }
+
+    function voltar() {
+        window.location = "./jogo.html"
+    }
+</script>
