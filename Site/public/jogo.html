@@ -23,8 +23,9 @@
 
             <ul class="navbar">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="" class="active">Livros</a></li>
+                <li><a href="livros.html">Livros</a></li>
                 <li><a href="filmes.html">Filmes</a></li>
+                <li><a href="jogo.html"  class="active">Jogo</a></li>
                 <li>|</li>
                 <li><a href="cadastro.html">Cadastre-se</a></li>
                 <li><a href="login.html">Login</a></li>
@@ -37,16 +38,12 @@
         <h1>Quadribol</h1>
         <div id="instrucao">
             <p>
-                Lorem ipsum dolor sit amet consectetur,
-                adipisicing elit. Dolores repudiandae dolorem ratione,
-                deleniti iure voluptatibus? Sed, omnis nam consectetur magni commodi
-                quibusdam dolorem explicabo, neque eos in maxime incidunt fuga.
-                Lorem ipsum dolor sit amet consectetur,
-                adipisicing elit. Dolores repudiandae dolorem ratione,
-                deleniti iure voluptatibus? Sed, omnis nam consectetur magni commodi
-                quibusdam dolorem explicabo, neque eos in maxime incidunt fuga.
+                Quadribol, é um esporte fictício criado pela autora J. K. Rowling em sua série de ficção Harry Potter. A história da série centra-se em feiticeiros que estudam artes mágicas na Escola de Magia e Bruxaria de Hogwarts. Nascido fora da tradição de vassouras voadoras usadas por bruxas para transporte, o Quadribol foi desenvolvido pela autora como o esporte mais popular no universo de Harry Potter; um esporte complexo disputado completamente no ar por bruxos em vassouras voadoras. <br><br>
+                O jogo conta com 20 tentativas, onde há a possibilidade de acertos, erros e caso você tenha sorte ou otimas habilidades na vasoura o Pomo de Ouro, onde assim que conquistado a partida será finalizada e o jogador é dado como vencedor!
+                <br><br>
+                Boa sorte Bruxo!
             </p>
-            <button onclick="começar()" class="btn">Começar</button>
+            <button onclick="começar()" class="btn one">Começar</button>
         </div>
     </div>
 
@@ -54,37 +51,38 @@
         <h1>Quadribol</h1>
         <div id="instrucao">
             <div class="imagem">
-                <img id="img" src="assets/quadribol/Iniciar.gif" alt="">
                 <div class="quant">Quantidade de tentativas: <span id="tentativas"></span></div>
+                <img id="img" src="assets/quadribol/Iniciar.gif" alt="">
+                
             </div>
-            <button onclick="bater()" class="btn">Bater</button>
+            <button onclick="bater()" id="finalizar" style="display: none;" class="btn two">Arremessar</button>
         </div>
     </div>
 
 
     <div id="parteTree" style="display: none;" class="conteinerJogo">
-        <h1>Quadribol</h1>
+        <h1>Placar do Jogo</h1>
         <div id="instrucao">
-
-            <h3>Placar Final</h3>
 
             <div class="placar">
                 <div class="divresult one">
                     <h4>Acertos</h4>
-                    <h5 id="acertos">0</h5>
+                    <h3 id="acertos">0</h3>
                 </div>
                 <div class="divresult two">
-                    <h4>Acertos</h4>
-                    <h5 id="acertos">0</h5>
+                    <h4>Pomo</h4>
+                    <h3 id="Pomo">0</h3>
                 </div>
                 <div class="divresult tree">
-                    <h4>Acertos</h4>
-                    <h5 id="acertos">0</h5>
+                    <h4>Erros</h4>
+                    <h3 id="erros">0</h3>
                 </div>
             </div>
 
+            <h1 id="resultado"></h1>
+
         </div>
-        <button onclick="voltar()" class="btn">Jogar Novamente</button>
+        <button onclick="voltar()" class="btn tree">Voltar</button>
     </div>
     </div>
     <div class="footer">
@@ -98,26 +96,32 @@
     function começar() {
         parteOne.style.display = 'none';
         parteTwo.style.display = 'block';
+        setInterval(function () {
+        finalizar.style.display = 'block'
+    }, 3000);
     }
+
     var ax_cliques = 0;
     var vt_errou = [];
     var vt_acertou = [];
+
     function bater() {
         ax_cliques++;
         for (let i = 0; i < 1; i++) {
 
-            var ax_sorte = (Math.random() * 100).toFixed();
+            var ax_sorte = (Math.random() * 120).toFixed();
             console.log(ax_sorte);
-            var ax_pombo = 100;
+            var ax_Pomo = 100;
             var ax_ganhou = (ax_sorte % 2 == 0) % 11 == 0;
 
-            if (ax_pombo == ax_sorte) {
-                window.alert('Parabéns!!! Você pegou o pombo de ouro')
-                parteTwo.innerHTML = '<img width="90%" style="margin-left: 5%; margin-top: 2%; border-radius: 10px;" id="img" src="assets/quadribol/pombo.gif">'
+            if (ax_Pomo == ax_sorte) {
+                Pomo.innerHTML = '1'
+                window.alert('Parabéns!!! Você pegou o Pomo de ouro')
+                parteTwo.innerHTML = '<img width="90%" style="margin-left: 5%; margin-top: 2%; border-radius: 10px;" id="img" src="assets/quadribol/pomo.gif">'
                 parteTree.style.display = 'block'
             }
 
-            else if (ax_ganhou == ax_sorte) {
+            else if (ax_ganhou == true) {
                 img.src = "assets/quadribol/Acertou.gif"
             }
             else {
@@ -126,7 +130,7 @@
 
             tentativas.innerHTML = `${ax_cliques}`
 
-            if (ax_sorte == ax_ganhou) {
+            if (ax_ganhou == true) {
                 vt_acertou.push(i);
             }
             else {
@@ -134,10 +138,31 @@
             }
         }
 
+        if(ax_cliques == 19){
+            finalizar.innerHTML = 'Finalizar'
+        }
+
         if (ax_cliques == 20) {
             parteTwo.style.display = 'none';
             parteTree.style.display = 'block';
         }
+
+        acertos.innerHTML = `${vt_acertou.length}`;
+        erros.innerHTML = `${vt_errou.length}`;
+
+        // if(vt_ouro > 0){
+        //     Pomo.innerHTML = vt_ouro;
+        // }
+        // if(vt_acertou.length > vt_errou.length){
+        //     resultado.innerHTML = 'Você Ganhou Essa Partida!!!'
+        // }
+        // else if(vt_ouro.length == 1){
+        //     resultado.innerHTML = 'Pomo de Ouro! Parabéns Você Ganhou!'
+        // }
+        // else{
+        //     resultado.innerHTML = 'Que pena, não foi dessa vez! Tente novamente'
+        // }
+        
 
         console.log(vt_acertou);
         console.log(vt_errou);

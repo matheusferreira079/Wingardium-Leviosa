@@ -85,7 +85,7 @@ body{
 
 .conteinerJogo h1{
     text-align: center;
-    padding-top: 100px;
+    padding-top: 50px;
     padding-bottom: 50px;
 }
 
@@ -96,7 +96,7 @@ body{
 }
 
 #instrucao p{
-    width: 70%;
+    width: 90%;
     text-align: justify;
     margin: auto;
     font-size: 18px;
@@ -113,7 +113,16 @@ body{
     height: 40px;
     margin-top: 40px;
     margin-bottom: 20px;
-    margin-left: 40%;
+    margin-left: 43%;
+}
+
+.btn.one{
+    margin-left: 38%;
+}
+
+.btn.two{
+    margin-left: 38%;
+    margin-top: 70px;
 }
 
 .conteinerJogo #instrucao .imagem{
@@ -127,6 +136,13 @@ body{
 .imagem img{
     width: 100%;
     border-radius: 10px;
+}
+
+.quant{
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-size: 20px;
 }
 
 .conteinerJogo #instrucao .placar{
