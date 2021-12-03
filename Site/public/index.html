@@ -11,7 +11,7 @@
     <script src="assets/js/funcoes.js"></script>
 </head>
 
-<body onload="validarSessao(), atualizarFeed()">
+<body onload="validarSessao(), atualizarFeed(), placar_casas()">
 
     <div class="head">
         <div class="conteiner">
@@ -98,7 +98,7 @@
         </div>
 
     </div>
-    
+<b style="color: white;"></b>
 
     <div class="footer">
         <img id="logo" src="Imagens/Logo.png">
@@ -166,7 +166,7 @@
 
                     var feed = document.getElementById("feed_container");
                     feed.innerHTML = "";
-                    for (var i = resposta.length-1; i > 1; i--) {
+                    for (var i = resposta.length - 1; i > 1; i--) {
                         var publicacao = resposta[i];
 
                         // criando e manipulando elementos do HTML via JavaScript
@@ -224,50 +224,27 @@
         return false;
     }
 
-    // function placar_casas() {
-    //     console.log('entrou aqui')
-    //     fetch("/usuarios/placar").then(function (resposta) {
-    
-    //         resposta.json().then(function (resposta) {
-    //             let elemento = document.getElementById("casaG");
-    //             let respostas = resposta.data;
-    //                 elemento.innerHTML += ` ${respostas[0].quantcasa}`;
+    function placar_casas() {
+        console.log('entrou aqui')
+        fetch("/usuarios/placar").then(function (resposta) {
 
-    //         })
+            resposta.json().then(function (resposta) {
+                let elementoOne = document.getElementById("casaG");
+                let elementoTwo = document.getElementById("casaS");
+                let elementoTree = document.getElementById("casaC");
+                let elementoFour = document.getElementById("casaL");
 
-    //     });
+                elementoOne.innerHTML = `<b>${resposta[0].quantcasa}</b>`;
+                elementoTwo.innerHTML = `<b>${resposta[1].quantcasa}</b>`;
+                elementoTree.innerHTML = `<b>${resposta[2].quantcasa}</b>`;
+                elementoFour.innerHTML = `<b>${resposta[3].quantcasa}</b>`;
 
-    // }
+            })
 
-    // function placar_casas() {
-    //     aguardar();
-    //     fetch("/usuarios/placar").then(function (resposta) {
-    //         if (resposta.ok) {
-    //             if (resposta.status == 204) {
-    //                 let feed = document.getElementById("casaG");
-    //                 let mensagem = document.createElement("span");
-    //                 mensagem.innerHTML = "Nenhum resultado encontrado."
-    //                 feed.appendChild(mensagem);
-    //                 throw "Nenhum resultado encontrado!!";
-    //             }
+        });
 
-    //             resposta.json().then(function (resposta) {
-    //                 console.log("Dados recebidos placar_casas: ", JSON.stringify(resposta));
+    }
 
-    //                 let elemento = document.getElementById("casaG");
-    //                 elemento.innerHTML = "";
-    //                 elemento.innerHTML = `${respostas[0].quantcasa}`;
-
-    //                 finalizarAguardar();
-    //             });
-    //         } else {
-    //             throw ('Houve um erro na API!');
-    //         }
-    //     }).catch(function (resposta) {
-    //         console.error(resposta);
-    //         finalizarAguardar();
-    //     });
-    // }
 
 
 </script>
