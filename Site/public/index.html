@@ -42,7 +42,7 @@
                         <br>
                         <input name="titulo" id="titulo" maxlength="100" type="text" placeholder="Nomeie a publicação">
                         <br>
-                        <textarea name="descricao" id="textarea_descricao" maxlength="250" rows="5"
+                        <textarea name="descricao" id="textarea_descricao" maxlength="3000" rows="5"
                             placeholder="No que você está pensando? levite em seus pensamentos... "></textarea>
                         <br>
                         <button>Enviar</button>
@@ -82,17 +82,17 @@
                 </div>
                 <div class="casa borda">
                     <h5>Sonserina</h5>
-                    <h5>0</h5>
+                    <h5 id="casaS">0</h5>
                 </div>
             </div>
             <div class="placar">
                 <div class="casa">
                     <h5>Corvinal</h5>
-                    <h5>0</h5>
+                    <h5 id="casaC">0</h5>
                 </div>
                 <div class="casa borda">
                     <h5>Lufa-lufa</h5>
-                    <h5>0</h5>
+                    <h5 id="casaL">0</h5>
                 </div>
             </div>
         </div>
@@ -223,5 +223,51 @@
 
         return false;
     }
+
+    // function placar_casas() {
+    //     console.log('entrou aqui')
+    //     fetch("/usuarios/placar").then(function (resposta) {
+    
+    //         resposta.json().then(function (resposta) {
+    //             let elemento = document.getElementById("casaG");
+    //             let respostas = resposta.data;
+    //                 elemento.innerHTML += ` ${respostas[0].quantcasa}`;
+
+    //         })
+
+    //     });
+
+    // }
+
+    // function placar_casas() {
+    //     aguardar();
+    //     fetch("/usuarios/placar").then(function (resposta) {
+    //         if (resposta.ok) {
+    //             if (resposta.status == 204) {
+    //                 let feed = document.getElementById("casaG");
+    //                 let mensagem = document.createElement("span");
+    //                 mensagem.innerHTML = "Nenhum resultado encontrado."
+    //                 feed.appendChild(mensagem);
+    //                 throw "Nenhum resultado encontrado!!";
+    //             }
+
+    //             resposta.json().then(function (resposta) {
+    //                 console.log("Dados recebidos placar_casas: ", JSON.stringify(resposta));
+
+    //                 let elemento = document.getElementById("casaG");
+    //                 elemento.innerHTML = "";
+    //                 elemento.innerHTML = `${respostas[0].quantcasa}`;
+
+    //                 finalizarAguardar();
+    //             });
+    //         } else {
+    //             throw ('Houve um erro na API!');
+    //         }
+    //     }).catch(function (resposta) {
+    //         console.error(resposta);
+    //         finalizarAguardar();
+    //     });
+    // }
+
 
 </script>
